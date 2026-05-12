@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Film, TrendingUp, Sparkles } from 'lucide-react';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/MovieGrid';
@@ -20,10 +20,6 @@ function App() {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    fetchInitialMovies();
-  }, []);
-
   const handleSearch = useCallback(async (query) => {
     setSearchQuery(query);
     if (!query.trim()) {
@@ -37,6 +33,11 @@ function App() {
     const data = await searchMovies(query);
     setMovies(data);
     setIsLoading(false);
+  }, []); // Disable exhaustive-deps if needed, or wrap fetchInitialMovies in useCallback
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchInitialMovies();
   }, []);
 
   return (

@@ -1,4 +1,3 @@
-import React from 'react';
 import MovieCard from './MovieCard';
 
 const MovieGrid = ({ movies, isLoading, onMovieClick }) => {

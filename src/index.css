@@ -105,15 +105,10 @@ header {
   gap: 0.75rem;
 }
 
-.logo-icon {
-  color: var(--accent-secondary);
-  animation: pulse-slow 3s infinite;
-}
-
-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.app-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* Search Bar */

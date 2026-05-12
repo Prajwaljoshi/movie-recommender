@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Film, TrendingUp, Sparkles, Filter } from 'lucide-react';
+import { TrendingUp, Sparkles, Filter } from 'lucide-react';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/MovieGrid';
 import MovieModal from './components/MovieModal';
@@ -122,8 +122,7 @@ function App() {
       <header>
         <div className="header-top">
           <div className="logo-container">
-            <Film className="logo-icon" size={32} />
-            <h1 className="gradient-text">CineMagic</h1>
+            <img src="/logo.png" alt="Movie Suggester Logo" className="app-logo" />
           </div>
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>

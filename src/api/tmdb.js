@@ -19,21 +19,71 @@ const fetchMovies = async (endpoint, params = {}) => {
       throw new Error(`TMDB API Error: ${response.status}`);
     }
     const data = await response.json();
-    return data.results;
+    return data;
   } catch (error) {
     console.error('Error fetching movies:', error);
+    return { results: [], total_pages: 0 };
+  }
+};
+
+export const getGenres = async () => {
+  if (!API_KEY) {
+    return [
+      { id: 28, name: "Action" },
+      { id: 12, name: "Adventure" },
+      { id: 16, name: "Animation" },
+      { id: 35, name: "Comedy" },
+      { id: 80, name: "Crime" },
+      { id: 99, name: "Documentary" },
+      { id: 18, name: "Drama" },
+      { id: 10751, name: "Family" },
+      { id: 14, name: "Fantasy" },
+      { id: 36, name: "History" },
+      { id: 27, name: "Horror" },
+      { id: 10402, name: "Music" },
+      { id: 9648, name: "Mystery" },
+      { id: 10749, name: "Romance" },
+      { id: 878, name: "Science Fiction" },
+      { id: 10770, name: "TV Movie" },
+      { id: 53, name: "Thriller" },
+      { id: 10752, name: "War" },
+      { id: 37, name: "Western" }
+    ];
+  }
+
+  const queryParams = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+  });
+
+  try {
+    const response = await fetch(`${BASE_URL}/genre/movie/list?${queryParams}`);
+    if (!response.ok) throw new Error('Failed to fetch genres');
+    const data = await response.json();
+    return data.genres;
+  } catch (error) {
+    console.error(error);
     return [];
   }
 };
 
-export const getPopularMovies = (page = 1) => fetchMovies('/movie/popular', { page });
+export const discoverMovies = (page = 1, genreId = '', language = '') => {
+  const params = { page };
+  if (genreId) params.with_genres = genreId;
+  if (language) params.with_original_language = language;
+  // Sort by popularity descending by default
+  params.sort_by = 'popularity.desc';
+  
+  return fetchMovies('/discover/movie', params);
+};
+
 export const getTrendingMovies = () => fetchMovies('/trending/movie/week');
 export const searchMovies = (query, page = 1) => fetchMovies('/search/movie', { query, page });
 
 export const getMovieDetails = async (movieId) => {
   if (!API_KEY) {
-    const mockMovies = getMockMovies();
-    return mockMovies.find(m => m.id === movieId) || null;
+    const mockData = getMockMovies();
+    return mockData.results.find(m => m.id === movieId) || null;
   }
   
   const queryParams = new URLSearchParams({
@@ -54,7 +104,7 @@ export const getMovieDetails = async (movieId) => {
 };
 
 function getMockMovies() {
-  return [
+  const results = [
     {
       id: 1,
       title: 'Inception',
@@ -106,4 +156,5 @@ function getMockMovies() {
       genres: [{ id: 28, name: 'Action' }, { id: 878, name: 'Science Fiction' }]
     }
   ];
+  return { results, total_pages: 1 };
 }

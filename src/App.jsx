@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import MovieGrid from './components/MovieGrid';
 import MovieModal from './components/MovieModal';
 import FilterBar from './components/FilterBar';
+import MoodSelector from './components/MoodSelector';
 import Pagination from './components/Pagination';
 import { discoverMovies, searchMovies, getGenres } from './api/tmdb';
 import './index.css';
@@ -21,6 +22,7 @@ function App() {
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
+  const [selectedMood, setSelectedMood] = useState('');
 
   // Fetch genres once on mount
   useEffect(() => {
@@ -41,7 +43,8 @@ function App() {
       data = await searchMovies(searchQuery, currentPage);
     } else {
       // Use discover API (supports filters)
-      data = await discoverMovies(currentPage, selectedGenre, selectedLanguage);
+      const effectiveGenre = selectedMood || selectedGenre;
+      data = await discoverMovies(currentPage, effectiveGenre, selectedLanguage);
     }
 
     setMovies(data.results);
@@ -51,7 +54,7 @@ function App() {
     
     // Scroll to top when new page loads
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage, isSearching, searchQuery, selectedGenre, selectedLanguage]);
+  }, [currentPage, isSearching, searchQuery, selectedGenre, selectedLanguage, selectedMood]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -61,6 +64,7 @@ function App() {
   const handleSearch = useCallback((query) => {
     setSearchQuery(query);
     setCurrentPage(1); // Reset to first page
+    setSelectedMood(''); // Clear mood
     if (query.trim()) {
       setIsSearching(true);
     } else {
@@ -73,6 +77,19 @@ function App() {
     setCurrentPage(1);
     setIsSearching(false); // Clear search mode when filtering
     setSearchQuery('');
+    if (genreId) {
+      setSelectedMood(''); // Clear mood if manual genre is selected
+    }
+  };
+
+  const handleMoodSelect = (moodId) => {
+    setSelectedMood(moodId);
+    setCurrentPage(1);
+    setIsSearching(false);
+    setSearchQuery('');
+    if (moodId) {
+      setSelectedGenre(''); // Clear manual genre if mood is selected
+    }
   };
 
   const handleLanguageChange = (languageCode) => {
@@ -102,11 +119,18 @@ function App() {
       </header>
 
       <main>
+        <MoodSelector selectedMood={selectedMood} onMoodSelect={handleMoodSelect} />
+        
         <div className="section-title">
           {isSearching && searchQuery ? (
             <>
               <Sparkles className="logo-icon" size={24} />
               Results for "{searchQuery}"
+            </>
+          ) : selectedMood ? (
+            <>
+              <Sparkles className="logo-icon" size={24} />
+              Curated for your mood
             </>
           ) : selectedGenre || selectedLanguage ? (
             <>

@@ -94,9 +94,16 @@ const MovieModal = ({ movieId, onClose }) => {
                       <h4>Stream</h4>
                       <div className="provider-list">
                         {movie['watch/providers'].results.IN.flatrate.map(p => (
-                          <div key={p.provider_id || p.provider_name} className="provider-item" title={p.provider_name}>
+                          <a 
+                            key={p.provider_id || p.provider_name} 
+                            href={movie['watch/providers'].results.IN.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="provider-item" 
+                            title={`Watch on ${p.provider_name}`}
+                          >
                             <img src={`https://image.tmdb.org/t/p/original${p.logo_path}`} alt={p.provider_name} />
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -107,9 +114,16 @@ const MovieModal = ({ movieId, onClose }) => {
                       <h4>Rent</h4>
                       <div className="provider-list">
                         {movie['watch/providers'].results.IN.rent.map(p => (
-                          <div key={p.provider_id || p.provider_name} className="provider-item" title={p.provider_name}>
+                          <a 
+                            key={p.provider_id || p.provider_name} 
+                            href={movie['watch/providers'].results.IN.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="provider-item" 
+                            title={`Rent on ${p.provider_name}`}
+                          >
                             <img src={`https://image.tmdb.org/t/p/original${p.logo_path}`} alt={p.provider_name} />
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -120,9 +134,16 @@ const MovieModal = ({ movieId, onClose }) => {
                       <h4>Buy</h4>
                       <div className="provider-list">
                         {movie['watch/providers'].results.IN.buy.map(p => (
-                          <div key={p.provider_id || p.provider_name} className="provider-item" title={p.provider_name}>
+                          <a 
+                            key={p.provider_id || p.provider_name} 
+                            href={movie['watch/providers'].results.IN.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="provider-item" 
+                            title={`Buy on ${p.provider_name}`}
+                          >
                             <img src={`https://image.tmdb.org/t/p/original${p.logo_path}`} alt={p.provider_name} />
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>

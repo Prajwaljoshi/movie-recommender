@@ -58,7 +58,7 @@ function App() {
     loadMovies();
   }, [loadMovies]);
 
-  const handleSearch = (query) => {
+  const handleSearch = useCallback((query) => {
     setSearchQuery(query);
     setCurrentPage(1); // Reset to first page
     if (query.trim()) {
@@ -66,7 +66,7 @@ function App() {
     } else {
       setIsSearching(false);
     }
-  };
+  }, []);
 
   const handleGenreChange = (genreId) => {
     setSelectedGenre(genreId);

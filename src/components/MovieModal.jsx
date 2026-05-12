@@ -84,6 +84,55 @@ const MovieModal = ({ movieId, onClose }) => {
                 <h3>Synopsis</h3>
                 <p>{movie.overview || "No synopsis available."}</p>
               </div>
+
+              {movie['watch/providers']?.results?.IN && (
+                <div className="modal-providers">
+                  <h3>Where to Watch (IN)</h3>
+                  
+                  {movie['watch/providers'].results.IN.flatrate && (
+                    <div className="provider-group">
+                      <h4>Stream</h4>
+                      <div className="provider-list">
+                        {movie['watch/providers'].results.IN.flatrate.map(p => (
+                          <div key={p.provider_id || p.provider_name} className="provider-item" title={p.provider_name}>
+                            <img src={`https://image.tmdb.org/t/p/original${p.logo_path}`} alt={p.provider_name} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {movie['watch/providers'].results.IN.rent && (
+                    <div className="provider-group">
+                      <h4>Rent</h4>
+                      <div className="provider-list">
+                        {movie['watch/providers'].results.IN.rent.map(p => (
+                          <div key={p.provider_id || p.provider_name} className="provider-item" title={p.provider_name}>
+                            <img src={`https://image.tmdb.org/t/p/original${p.logo_path}`} alt={p.provider_name} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {movie['watch/providers'].results.IN.buy && (
+                    <div className="provider-group">
+                      <h4>Buy</h4>
+                      <div className="provider-list">
+                        {movie['watch/providers'].results.IN.buy.map(p => (
+                          <div key={p.provider_id || p.provider_name} className="provider-item" title={p.provider_name}>
+                            <img src={`https://image.tmdb.org/t/p/original${p.logo_path}`} alt={p.provider_name} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="provider-attribution">
+                    <p>Powered by <a href={movie['watch/providers'].results.IN.link} target="_blank" rel="noreferrer">JustWatch</a></p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (

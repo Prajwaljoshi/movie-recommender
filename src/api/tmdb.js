@@ -89,6 +89,7 @@ export const getMovieDetails = async (movieId) => {
   const queryParams = new URLSearchParams({
     api_key: API_KEY,
     language: 'en-US',
+    append_to_response: 'watch/providers'
   });
 
   try {
@@ -113,7 +114,21 @@ function getMockMovies() {
       release_date: '2010-07-15',
       overview: 'Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible: "inception", the implantation of another person\'s idea into a target\'s subconscious.',
       runtime: 148,
-      genres: [{ id: 28, name: 'Action' }, { id: 878, name: 'Science Fiction' }, { id: 12, name: 'Adventure' }]
+      genres: [{ id: 28, name: 'Action' }, { id: 878, name: 'Science Fiction' }, { id: 12, name: 'Adventure' }],
+      'watch/providers': {
+        results: {
+          IN: {
+            link: "https://www.justwatch.com",
+            flatrate: [
+              { logo_path: "/t2yyOv40HZeVlLjVrCsPhIdZLWw.jpg", provider_name: "Netflix" },
+              { logo_path: "/emthp39XA2YScoYL1p0sdbAH2WA.jpg", provider_name: "Amazon Prime Video" }
+            ],
+            rent: [
+              { logo_path: "/peURlNpzO1TMBmQwI8gvnkBgBcO.jpg", provider_name: "Apple TV" }
+            ]
+          }
+        }
+      }
     },
     {
       id: 2,

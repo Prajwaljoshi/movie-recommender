@@ -120,6 +120,7 @@ header h1 {
 .search-container {
   position: relative;
   width: 100%;
+  flex: 1;
   max-width: 400px;
 }
 
@@ -652,11 +653,12 @@ header h1 {
 /* Header Controls Layout */
 .header-controls {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
 }
 
 /* Filter Bar */
@@ -665,6 +667,8 @@ header h1 {
   align-items: center;
   gap: 1rem;
   width: 100%;
+  flex: 1;
+  max-width: 500px;
   background: var(--card-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
@@ -762,7 +766,12 @@ header h1 {
 
 @media (max-width: 768px) {
   .header-controls {
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-container, .filter-bar {
+    max-width: 100%;
   }
   
   .filter-group {

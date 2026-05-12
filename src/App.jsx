@@ -6,6 +6,7 @@ import MovieModal from './components/MovieModal';
 import FilterBar from './components/FilterBar';
 import MoodSelector from './components/MoodSelector';
 import Pagination from './components/Pagination';
+import ThemeToggle from './components/ThemeToggle';
 import { discoverMovies, searchMovies, getGenres } from './api/tmdb';
 import './index.css';
 
@@ -23,6 +24,23 @@ function App() {
   const [selectedGenre, setSelectedGenre] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [selectedMood, setSelectedMood] = useState('');
+
+  // Theme state
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('movie-theme');
+    if (savedTheme) return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  });
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('movie-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   // Fetch genres once on mount
   useEffect(() => {
@@ -102,9 +120,12 @@ function App() {
   return (
     <div className="app-container">
       <header>
-        <div className="logo-container">
-          <Film className="logo-icon" size={32} />
-          <h1 className="gradient-text">CineMagic</h1>
+        <div className="header-top">
+          <div className="logo-container">
+            <Film className="logo-icon" size={32} />
+            <h1 className="gradient-text">CineMagic</h1>
+          </div>
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
         <div className="header-controls">
           <SearchBar onSearch={handleSearch} />

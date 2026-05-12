@@ -8,6 +8,7 @@ import MoodSelector from './components/MoodSelector';
 import Pagination from './components/Pagination';
 import ThemeToggle from './components/ThemeToggle';
 import { discoverMovies, searchMovies, getGenres } from './api/tmdb';
+import logo from './assets/logo.png';
 import './index.css';
 
 function App() {
@@ -122,7 +123,7 @@ function App() {
       <header>
         <div className="header-top">
           <div className="logo-container">
-            <img src="/logo.png" alt="Movie Suggester Logo" className="app-logo" />
+            <img src={logo} alt="Movie Suggester Logo" className="app-logo" />
           </div>
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
